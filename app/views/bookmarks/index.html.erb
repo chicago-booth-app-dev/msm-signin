@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      List of all bookmarks
+      <%= User.where(:id => session.fetch(:user_id)).first.first_name.capitalize %>'s Bookmarks
     </h1>
   </div>
 </div>
@@ -10,26 +10,14 @@
 
 <div>
   <div>
-    <h2>
-      Add a new bookmark
-    </h2>
-
     <form action="/insert_bookmark" method="post">
-      <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="text" id="user_id_box" name="query_user_id">
-      </div>
-
-      <div>
-        <label for="movie_id_box">
-          Movie
-        </label>
-
-        <input type="text" id="movie_id_box" name="query_movie_id">
-      </div>
+      <input type="hidden" id="<%= session.fetch(:user_id) %>" name="query_user_id">
+        
+      <select id="movie_id_box" name="query_movie_id">
+        <% Movie.all.each do |movie| %>
+          <option value="<%= movie.id %>"><%= movie.title %></option>
+        <% end %>
+      </select>
 
       <button>
         Create bookmark
